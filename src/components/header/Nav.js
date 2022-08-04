@@ -7,54 +7,38 @@ const Nav = () => {
   const { auth, userId } = useContext(context);
 
   return (
-    <nav>
-      <ul>
-        <li>
-          <NavLink
-            className={(nav) =>
-              nav.isActive ? "navButtonActive" : "navButton"
-            }
-            to="/"
-          >
-            Accueil
-          </NavLink>
-        </li>
-        <li>
-          <NavLink
-            className={(nav) =>
-              nav.isActive ? "navButtonActive" : "navButton"
-            }
-            to="/favoris"
-          >
-            Favoris
-          </NavLink>
-        </li>
-        <li>
-          {userId !== null ? (
-            <NavLink
-              className={(nav) =>
-                nav.isActive ? "navButtonActive" : "navButton"
-              }
-              to="/"
-              onClick={() => {
-                auth.signOut();
-              }}
-            >
-              Déconnexion
-            </NavLink>
-          ) : (
-            <NavLink
-              className={(nav) =>
-                nav.isActive ? "navButtonActive" : "navButton"
-              }
-              to="/connexion"
-            >
-              Connexion
-            </NavLink>
-          )}
-        </li>
-      </ul>
-    </nav>
+    <section class="navbar-section">
+      <NavLink
+        className={(nav) => "nav-item m-1 text-light " + (nav.isActive ? "active" : "")}
+        to="/"
+      >
+        Accueil
+      </NavLink>
+      <NavLink
+        className={(nav) => "nav-item m-1 text-light " + (nav.isActive ? "active" : "")}
+        to="/favoris"
+      >
+        Favoris
+      </NavLink>
+      {userId !== null ? (
+        <NavLink
+          className={(nav) => "nav-item m-1 text-light " + (nav.isActive ? "active" : "")}
+          to="/"
+          onClick={() => {
+            auth.signOut();
+          }}
+        >
+          Déconnexion
+        </NavLink>
+      ) : (
+        <NavLink
+          className={(nav) => "nav-item m-1 text-light " + (nav.isActive ? "active" : "")}
+          to="/connexion"
+        >
+          Connexion
+        </NavLink>
+      )}
+    </section>
   );
 };
 

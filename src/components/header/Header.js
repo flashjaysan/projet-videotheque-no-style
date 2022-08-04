@@ -3,7 +3,7 @@ import Nav from "./Nav";
 
 const Header = () => {
   return (
-    <header>
+    <header className="navbar bg-primary">
       <Brand />
       <Nav />
     </header>

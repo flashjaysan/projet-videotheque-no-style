@@ -37,7 +37,7 @@ const MovieDetails = ({ movieId }) => {
             <h1 className="title">{movie.title}</h1>
             <div className="film_poster">
               <img
-                className="resp"
+                className="img-responsive"
                 src={
                   movie.poster_path
                     ? "https://image.tmdb.org/t/p/w500" + movie.poster_path

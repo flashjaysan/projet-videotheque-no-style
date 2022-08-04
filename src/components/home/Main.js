@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 import MovieSearchBar from "./MovieSearchBar";
 import MoviesList from "../common/MoviesList";

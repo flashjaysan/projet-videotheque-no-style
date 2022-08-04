@@ -21,14 +21,16 @@ const MovieSearchBar = ({ setMovies, setSortingOrder }) => {
   }, [search]);
 
   return (
-    <div className="movie-search-bar">
-      <div className="movie-search-text-input">
+    <div className="card">
+      <div className="card-body">
         <form
+          className="form-group"
           onSubmit={(e) => {
             e.preventDefault();
           }}
         >
           <input
+            className="form-input"
             type="text"
             placeholder="NOM DE FILM"
             onChange={(e) => {
@@ -36,26 +38,26 @@ const MovieSearchBar = ({ setMovies, setSortingOrder }) => {
             }}
           />
         </form>
-      </div>
-      <div className="sort-buttons">
-        <button
-          className={topButtonActive ? "activeButton" : ""}
-          onClick={() => {
-            setTopButtonActive(true);
-            setSortingOrder("descending");
-          }}
-        >
-          TOP
-        </button>
-        <button
-          className={topButtonActive ? "" : "activeButton"}
-          onClick={() => {
-            setTopButtonActive(false);
-            setSortingOrder("ascending");
-          }}
-        >
-          FLOP
-        </button>
+        <div className="btn-group p-centered">
+          <button
+            className={"btn" + (topButtonActive ? "active" : "")}
+            onClick={() => {
+              setTopButtonActive(true);
+              setSortingOrder("descending");
+            }}
+          >
+            TOP
+          </button>
+          <button
+            className={"btn" + (topButtonActive ? "" : "active")}
+            onClick={() => {
+              setTopButtonActive(false);
+              setSortingOrder("ascending");
+            }}
+          >
+            FLOP
+          </button>
+        </div>
       </div>
     </div>
   );
