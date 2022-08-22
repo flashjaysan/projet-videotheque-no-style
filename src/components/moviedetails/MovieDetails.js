@@ -29,7 +29,7 @@ const MovieDetails = ({ movieId }) => {
   }, []);
 
   return (
-    <main>
+    <>
       {isPending && <p>Chargement des données du film {movieId}</p>}
       {movie ? (
         <div className="detail_page">
@@ -85,7 +85,7 @@ const MovieDetails = ({ movieId }) => {
       ) : (
         <p></p>
       )}
-    </main>
+    </>
   );
 };
 

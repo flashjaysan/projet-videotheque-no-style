@@ -12,45 +12,37 @@ const Comments = ({ movieId }) => {
 
   const { db } = useContext(context);
 
-  let nickname = "none";
-
   useEffect(() => {
-    const getCommentsFromFirestore = async () => {
-      const commentsCollection = collection(db, "comments");
-      const q = query(commentsCollection, where("movie_id", "==", movieId));
-      const commentsSnapshots = await getDocs(q);
+    console.log(comments);
+    // récupération des commentaires du film 'movieId'
+    const commentsCollection = collection(db, "comments");
+    const q = query(commentsCollection, where("movie_id", "==", movieId));
+    getDocs(q).then((commentsSnapshots) => {
+      commentsSnapshots.forEach((doc) => {
+        const commentId = doc.id;
+        const commentUserId = doc.data().user_id;
+        const commentMessage = doc.data().comment;
 
-      commentsSnapshots.forEach(async (doc) => {
+        // récupération du pseudo associé à l'auteur du commentaire
+        const usersCollection = collection(db, "users");
+        const q = query(usersCollection, where("user_id", "==", commentUserId));
+        getDocs(q).then((usersSnapshots) => {
+          const commentNickname = usersSnapshots.docs[0].data().nickname;
 
-        // const getNicknameFromFirestore = async (userId) => {
-        //   const usersCollection = collection(db, "users");
-        //   const q = query(usersCollection, where("user_id", "==", userId));
-        //   const usersSnapshots = await getDocs(q);
+          // ajout du commentaire complet au state 'comments'
+          setComments((previous) => {
+            const newComment = {
+              id: commentId,
+              authorId: commentUserId,
+              nickname: commentNickname,
+              comment: commentMessage,
+            };
 
-        //   usersSnapshots.forEach((doc) => {
-        //     return doc.data().nickname;
-        //   });
-        // }
-        const getNicknameFromFirestore = async (userId) => {
-          const usersCollection = collection(db, "users");
-          const q = query(usersCollection, where("user_id", "==", userId));
-          const usersSnapshots = await getDocs(q);
-          return usersSnapshots.docs[0].data().nickname;
-        }
-
-        const dataWithId = {id: doc.id, ...doc.data()};
-        const userId = dataWithId.user_id;
-        const nickname = await getNicknameFromFirestore(userId);
-
-        setComments((previous) => {
-          const fullData = {nickname: nickname, ...dataWithId};
-          console.log(fullData);
-          return [...previous, fullData];
+            return [...previous, newComment];
+          });
         });
       });
-    };
-
-    getCommentsFromFirestore();
+    });
   }, []);
 
   return (
@@ -60,7 +52,12 @@ const Comments = ({ movieId }) => {
         {comments.map((comment) => {
           return (
             <li key={comment.id} className="comment">
-              <Comment nickname={nickname} comment={comment.comment} />
+              <Comment
+                commentId={comment.id}
+                author={comment.authorId}
+                nickname={comment.nickname}
+                comment={comment.comment}
+              />
             </li>
           );
         })}
